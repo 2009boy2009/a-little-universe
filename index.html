@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#170f2d">
+  <title>A little universe ✧</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="scene-vignette" aria-hidden="true"></div>
+
+  <main id="password-screen" class="screen password-screen">
+    <section class="glass login-card">
+      <div class="ornament">──────── ♡ ────────</div>
+      <h1>A little universe <span>✧</span></h1>
+      <p class="login-subtitle">Some things are meant for<br>the right person ♡</p>
+      <div class="tiny-divider"></div>
+      <label class="password-wrap">
+        <span aria-hidden="true">♙</span>
+        <input id="password-input" type="password" placeholder="Enter the password ♡" autocomplete="off">
+      </label>
+      <p id="password-error" class="error-message" role="alert"></p>
+      <button id="unlock-button" class="glow-button">Unlock ♡</button>
+      <p class="written-stars">Written in the stars ♡</p>
+    </section>
+  </main>
+
+  <main id="messages-screen" class="screen messages-screen hidden" aria-hidden="true">
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="A little universe home"><span>✦</span> ✧ a little universe</a>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p>
+      <h1>For this day,<br>and the little things.</h1>
+      <p class="intro-copy">No rush. Let the stars settle, then open today’s words.</p>
+    </section>
+
+    <section class="glass today-card" aria-labelledby="today-heading">
+      <div class="card-topline">
+        <span class="date-label" id="today-date"></span>
+        <button id="today-music" class="music-button" type="button" aria-label="Play today's music" title="Play music">♫</button>
+      </div>
+      <p class="card-kicker">✧</p>
+      <h2 id="today-heading">One small moment</h2>
+      <p id="today-message" class="today-message"></p>
+      <p class="card-footnote">A little note, just for today.</p>
+    </section>
+
+    <section class="archive-section">
+      <div class="archive-heading">
+        <div>
+          <p class="eyebrow">THE DAYS BEFORE</p>
+          <h2>A trail of little stars</h2>
+        </div>
+        <span id="archive-count" class="count-pill">0 notes</span>
+      </div>
+      <div id="archive-list" class="archive-list"></div>
+    </section>
+
+    <footer class="site-footer">
+      <span>──────────</span>
+      made of stardust &amp; kind thoughts ♡ ☾
+      <span>──────────</span>
+    </footer>
+  </main>
+
+  <div id="note-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" data-close-modal></div>
+    <article class="glass modal-card">
+      <div class="modal-topline">
+        <p id="modal-date" class="date-label"></p>
+        <button id="modal-music" class="music-button" type="button" aria-label="Play note music" title="Play music">♫</button>
+      </div>
+      <button class="close-button" type="button" data-close-modal aria-label="Close note">×</button>
+      <p class="eyebrow">A LITTLE NOTE FROM THE DAYS BEFORE</p>
+      <h2 id="modal-title"></h2>
+      <div id="modal-message" class="modal-message"></div>
+      <p class="card-footnote">A little universe, just for you ♡</p>
+    </article>
+  </div>
+
+  <audio id="audio-player" preload="none"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
