@@ -1,88 +1,96 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#170f2d">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#100d2b" />
   <title>A little universe ✧</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <canvas id="sky" aria-hidden="true"></canvas>
-  <div class="scene-vignette" aria-hidden="true"></div>
-
-  <main id="password-screen" class="screen password-screen">
-    <section class="glass login-card">
-      <div class="ornament">──────── ♡ ────────</div>
-      <h1>A little universe <span>✧</span></h1>
-      <p class="login-subtitle">Some things are meant for<br>the right person ♡</p>
-      <div class="tiny-divider"></div>
-      <label class="password-wrap">
-        <span aria-hidden="true">♙</span>
-        <input id="password-input" type="password" placeholder="Enter the password ♡" autocomplete="off">
-      </label>
-      <p id="password-error" class="error-message" role="alert"></p>
-      <button id="unlock-button" class="glow-button">Unlock ♡</button>
-      <p class="written-stars">Written in the stars ♡</p>
-    </section>
-  </main>
-
-  <main id="messages-screen" class="screen messages-screen hidden" aria-hidden="true">
-    <header class="site-header">
-      <a class="brand" href="#" aria-label="A little universe home"><span>✦</span> ✧ a little universe</a>
-    </header>
-
-    <section class="intro">
-      <p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p>
-      <h1>For this day,<br>and the little things.</h1>
-      <p class="intro-copy">No rush. Let the stars settle, then open today’s words.</p>
-    </section>
-
-    <section class="glass today-card" aria-labelledby="today-heading">
-      <div class="card-topline">
-        <span class="date-label" id="today-date"></span>
-        <button id="today-music" class="music-button" type="button" aria-label="Play today's music" title="Play music">♫</button>
-      </div>
-      <p class="card-kicker">✧</p>
-      <h2 id="today-heading">One small moment</h2>
-      <p id="today-message" class="today-message"></p>
-      <p class="card-footnote">A little note, just for today.</p>
-    </section>
-
-    <section class="archive-section">
-      <div class="archive-heading">
-        <div>
-          <p class="eyebrow">THE DAYS BEFORE</p>
-          <h2>A trail of little stars</h2>
-        </div>
-        <span id="archive-count" class="count-pill">0 notes</span>
-      </div>
-      <div id="archive-list" class="archive-list"></div>
-    </section>
-
-    <footer class="site-footer">
-      <span>──────────</span>
-      made of stardust &amp; kind thoughts ♡ ☾
-      <span>──────────</span>
-    </footer>
-  </main>
-
-  <div id="note-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-backdrop" data-close-modal></div>
-    <article class="glass modal-card">
-      <div class="modal-topline">
-        <p id="modal-date" class="date-label"></p>
-        <button id="modal-music" class="music-button" type="button" aria-label="Play note music" title="Play music">♫</button>
-      </div>
-      <button class="close-button" type="button" data-close-modal aria-label="Close note">×</button>
-      <p class="eyebrow">A LITTLE NOTE FROM THE DAYS BEFORE</p>
-      <h2 id="modal-title"></h2>
-      <div id="modal-message" class="modal-message"></div>
-      <p class="card-footnote">A little universe, just for you ♡</p>
-    </article>
+  <div class="world" aria-hidden="true">
+    <div class="sky-glow"></div><div class="nebula nebula-a"></div><div class="nebula nebula-b"></div>
+    <div class="moon"><span></span></div>
+    <div id="starfield" class="starfield"></div>
+    <div class="shooting-star shoot-one"></div><div class="shooting-star shoot-two"></div>
+    <svg class="landscape" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7b4a9b" stop-opacity=".12"/><stop offset=".3" stop-color="#251c51" stop-opacity=".75"/><stop offset="1" stop-color="#090e2a"/></linearGradient>
+        <linearGradient id="mountain" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#33264f"/><stop offset="1" stop-color="#080d25"/></linearGradient>
+        <linearGradient id="horizon" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffb0e8" stop-opacity=".8"/><stop offset="1" stop-color="#ff78d2" stop-opacity="0"/></linearGradient>
+        <filter id="blurGlow"><feGaussianBlur stdDeviation="18"/></filter>
+      </defs>
+      <ellipse cx="800" cy="670" rx="600" ry="90" fill="url(#horizon)" filter="url(#blurGlow)" opacity=".55"/>
+      <path d="M0 650 Q140 570 250 625 T480 610 Q600 550 710 630 T930 600 Q1100 535 1210 620 T1450 590 L1600 630 V900 H0Z" fill="url(#mountain)"/>
+      <path d="M0 700 Q180 650 330 690 T620 670 Q820 640 1000 690 T1300 655 T1600 690 V900 H0Z" fill="#10132f" opacity=".9"/>
+      <path d="M0 715 Q250 690 500 720 T1000 710 T1600 700 V900 H0Z" fill="url(#water)"/>
+      <path d="M680 708 Q800 696 920 708" stroke="#ffb5e9" stroke-width="5" opacity=".45" filter="url(#blurGlow)"/>
+      <g class="water-glints" fill="none" stroke-linecap="round">
+        <path d="M610 748 Q800 740 990 748 M690 772 Q800 765 910 772 M540 802 Q800 795 1060 802 M730 833 Q800 830 870 833" stroke="#f8a9e6" stroke-width="2" opacity=".45"/>
+        <path d="M760 720 Q800 717 840 720 M700 785 Q800 780 900 785" stroke="#fff0ff" stroke-width="3" opacity=".5"/>
+      </g>
+      <g class="far-flowers" fill="#d77cc4" stroke="#f7b5e8" stroke-width="2">
+        <g transform="translate(70 760)"><path d="M0 0q-25-50 0-75q25 25 0 75"/><path d="M0 0q50-25 65 0q-30 22-65 0"/><path d="M0 0q-50 25-65 0q30-22 65 0"/><circle r="10" fill="#ffe1a9"/></g>
+        <g transform="translate(1510 770) scale(1.25)"><path d="M0 0q-25-50 0-75q25 25 0 75"/><path d="M0 0q50-25 65 0q-30 22-65 0"/><path d="M0 0q-50 25-65 0q30-22 65 0"/><circle r="10" fill="#ffe1a9"/></g>
+      </g>
+    </svg>
+    <div class="cloud cloud-left"></div><div class="cloud cloud-right"></div>
+    <div class="foreground-flowers" id="flowers"></div>
+    <div class="vignette"></div>
   </div>
 
-  <audio id="audio-player" preload="none"></audio>
+  <main>
+    <section id="gate" class="gate-screen">
+      <div class="gate-card glass">
+        <div class="ornament">— ✧ ♡ ✧ —</div>
+        <p class="eyebrow">A QUIET PLACE, JUST FOR WORDS</p>
+        <h1>A little universe <span>✧</span></h1>
+        <p class="gate-copy">Some things are meant for<br>the right person ♡</p>
+        <form id="unlockForm">
+          <label class="password-wrap"><span>♙</span><input id="password" type="password" placeholder="Enter the password ♡" autocomplete="off" aria-label="Enter the password"></label>
+          <button class="glow-button" type="submit">Unlock ♡</button>
+          <p id="passwordError" class="error" aria-live="polite"></p>
+        </form>
+        <p class="gate-foot">Written in the stars ♡</p>
+      </div>
+    </section>
+
+    <section id="universe" class="universe-screen hidden">
+      <header class="site-header"><a class="brand" href="#top">✧ <span>a little universe</span></a><span class="header-note">a place for little moments</span></header>
+      <div class="intro" id="top">
+        <p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p>
+        <h2>For this day,<br>and the little things.</h2>
+        <p class="intro-copy">No rush. Let the stars settle, then open today's words.</p>
+      </div>
+
+      <section class="today-card glass" aria-labelledby="todayHeading">
+        <div class="card-topline"><span class="sparkle">✧</span><span id="todayHeading">Today’s message</span><button id="todayMusic" class="music-button" type="button" aria-label="Play today's music" title="Play music">♫</button></div>
+        <p class="today-date" id="todayDate"></p>
+        <h3 id="todayTitle">One small moment</h3>
+        <p id="todayText" class="today-message">A little moment my moon 🌙, your note is awaiting</p>
+        <p id="todayMusicTitle" class="music-caption"></p>
+      </section>
+
+      <section class="archive-section">
+        <div class="archive-heading"><div><p class="eyebrow">THE DAYS BEFORE</p><h2>A trail of little stars</h2></div><span id="noteCount" class="note-count">0 notes</span></div>
+        <div id="archive" class="archive-grid"></div>
+      </section>
+      <footer>made of stardust &amp; kind thoughts ♡ <span>☾</span></footer>
+    </section>
+  </main>
+
+  <dialog id="noteDialog" class="note-dialog glass">
+    <button id="closeDialog" class="close-button" type="button" aria-label="Close note">×</button>
+    <p class="eyebrow">A LITTLE NOTE FROM THE ARCHIVE</p>
+    <p id="modalDate" class="modal-date"></p><h2 id="modalTitle"></h2>
+    <div id="modalMessage" class="modal-message"></div>
+    <div class="modal-actions"><button id="modalMusic" class="music-button" type="button">♫ <span>Play this note’s music</span></button></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <audio id="audioPlayer" preload="none"></audio>
   <script src="script.js"></script>
 </body>
 </html>
