@@ -1,159 +1,25 @@
-const PASSWORD = 'Muskan';
-const fallbackMessage = 'A little moment my moon 🌙, your note is awaiting';
-const gate = document.getElementById('gate');
-const universe = document.getElementById('universe');
-const audio = document.getElementById('audioPlayer');
-const dialog = document.getElementById('noteDialog');
-let messages = {};
-let activeMusicButton = null;
-let currentMusic = '';
-let toastTimer;
-
-function localDateKey(date = new Date()) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
-function formatDate(key) {
-  const [y,m,d] = key.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString(undefined, {day:'numeric', month:'long', year:'numeric'});
-}
-function showToast(message) {
-  const el = document.getElementById('toast');
-  el.textContent = message;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
-}
-function stopMusic() {
-  audio.pause();
-  audio.currentTime = 0;
-  audio.removeAttribute('src');
-  audio.load();
-  currentMusic = '';
-  if (activeMusicButton) activeMusicButton.classList.remove('playing');
-  activeMusicButton = null;
-}
-async function playMusic(path, button) {
-  if (!path) { showToast('There is no music attached to this note yet ♡'); return; }
-  if (currentMusic === path && !audio.paused) { stopMusic(); return; }
-  stopMusic();
-  currentMusic = path;
-  activeMusicButton = button;
-  audio.src = path;
-  try {
-    await audio.play();
-    button?.classList.add('playing');
-  } catch (error) {
-    stopMusic();
-    showToast('Music file not found. Check the MP3 path in messages.json.');
-  }
-}
-audio.addEventListener('ended', stopMusic);
-audio.addEventListener('error', () => { if (currentMusic) { stopMusic(); showToast('Could not load this MP3 file.'); } });
-
-function renderToday() {
-  const key = localDateKey();
-  const note = messages[key];
-  document.getElementById('todayDate').textContent = note?.dateLabel || formatDate(key);
-  document.getElementById('todayTitle').textContent = note?.title || 'One small moment';
-  document.getElementById('todayText').textContent = note?.message || fallbackMessage;
-  document.getElementById('todayMusicTitle').textContent = note?.musicTitle || '';
-  const musicButton = document.getElementById('todayMusic');
-  musicButton.onclick = () => playMusic(note?.music, musicButton);
-  musicButton.title = note?.music ? `Play ${note.musicTitle || 'music'}` : 'No music attached';
-  musicButton.style.opacity = note?.music ? '1' : '.55';
-}
-function renderArchive() {
-  const archive = document.getElementById('archive');
-  const todayKey = localDateKey();
-  const entries = Object.entries(messages).filter(([key]) => key !== todayKey).sort(([a],[b]) => b.localeCompare(a));
-  document.getElementById('noteCount').textContent = `${entries.length} ${entries.length === 1 ? 'note' : 'notes'}`;
-  archive.replaceChildren();
-  entries.forEach(([key,note]) => {
-    const button = document.createElement('button');
-    button.className = 'archive-note';
-    button.type = 'button';
-    const date = note.dateLabel || formatDate(key);
-    const parts = date.split(' ');
-    const dateShort = parts.length >= 3 ? `${parts[0]} ${parts[1]}` : date;
-    button.innerHTML = `<span class="star-mark">— ✧ —</span><span class="date"></span><span class="title"></span><span class="arrow">⌄</span>`;
-    button.querySelector('.date').textContent = dateShort;
-    button.querySelector('.title').textContent = note.title || 'A little note';
-    button.addEventListener('click', () => openNote(key, note));
-    archive.appendChild(button);
-  });
-  if (!entries.length) {
-    const empty = document.createElement('p');
-    empty.className = 'intro-copy';
-    empty.textContent = 'Your little trail of stars will appear here.';
-    archive.appendChild(empty);
-  }
-}
-function openNote(key, note) {
-  stopMusic();
-  document.getElementById('modalDate').textContent = note.dateLabel || formatDate(key);
-  document.getElementById('modalTitle').textContent = note.title || 'A little note';
-  document.getElementById('modalMessage').textContent = note.message || '';
-  const musicButton = document.getElementById('modalMusic');
-  musicButton.onclick = () => playMusic(note.music, musicButton);
-  musicButton.style.opacity = note.music ? '1' : '.55';
-  dialog.showModal();
-}
-function closeNote() { dialog.close(); stopMusic(); }
-document.getElementById('closeDialog').addEventListener('click', closeNote);
-dialog.addEventListener('click', event => { if (event.target === dialog) closeNote(); });
-dialog.addEventListener('close', stopMusic);
-document.getElementById('unlockForm').addEventListener('submit', event => {
-  event.preventDefault();
-  const entered = document.getElementById('password').value;
-  if (entered === PASSWORD) {
-    document.getElementById('passwordError').textContent = '';
-    gate.classList.add('hidden');
-    universe.classList.remove('hidden');
-    renderToday(); renderArchive();
-  } else {
-    document.getElementById('passwordError').textContent = 'That key does not open this little universe. ♡';
-    document.getElementById('password').value = '';
-  }
-});
-
-function makeStars() {
-  const field = document.getElementById('starfield');
-  const count = Math.min(170, Math.floor(window.innerWidth * window.innerHeight / 8500));
-  for (let i=0;i<count;i++) {
-    const star = document.createElement('i');
-    star.className = `star${Math.random() > .9 ? ' big' : ''}`;
-    star.style.left = `${Math.random()*100}%`;
-    star.style.top = `${Math.random()*76}%`;
-    star.style.setProperty('--dur', `${2 + Math.random()*4}s`);
-    star.style.setProperty('--delay', `${Math.random()*5}s`);
-    field.appendChild(star);
-  }
-}
-function makeFlowers() {
-  const field = document.getElementById('flowers');
-  for (let i=0;i<17;i++) {
-    const flower = document.createElement('i');
-    flower.className = 'flower';
-    flower.style.left = `${Math.random()*100}%`;
-    flower.style.setProperty('--size', `${17+Math.random()*22}px`);
-    flower.style.setProperty('--sway', `${3+Math.random()*4}s`);
-    flower.style.animationDelay = `${Math.random()*-5}s`;
-    field.appendChild(flower);
-  }
-}
-async function loadMessages() {
-  try {
-    const response = await fetch('messages.json', {cache:'no-store'});
-    if (!response.ok) throw new Error('Could not load messages.json');
-    const data = await response.json();
-    messages = data.messages || {};
-  } catch (error) {
-    console.warn(error);
-    showToast('Could not read messages.json. Open this folder using a local server or GitHub Pages.');
-  }
-}
-makeStars(); makeFlowers();
+const PASSWORD="Muskan";
+const $=id=>document.getElementById(id);
+const gateScreen=$("gateScreen"),messageScreen=$("messageScreen"),audioPlayer=$("audioPlayer");
+let allMessages={},activeMusicButton=null;
+const isoToday=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const prettyToday=()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
+function stopMusic(){audioPlayer.pause();audioPlayer.currentTime=0;audioPlayer.removeAttribute("src");audioPlayer.load();if(activeMusicButton)activeMusicButton.classList.remove("is-playing");activeMusicButton=null}
+function setupMusicButton(button,note){button.hidden=!note.music;if(!note.music)return;button.title=note.musicTitle||"Play music";button.onclick=()=>{if(activeMusicButton===button&&!audioPlayer.paused){stopMusic();return}stopMusic();audioPlayer.src=note.music;activeMusicButton=button;button.classList.add("is-playing");audioPlayer.play().catch(()=>{button.classList.remove("is-playing");activeMusicButton=null;alert("Couldn't play this MP3. Check its filename and path in messages.json.")})}}
+audioPlayer.addEventListener("ended",()=>{if(activeMusicButton)activeMusicButton.classList.remove("is-playing");activeMusicButton=null});
+audioPlayer.addEventListener("error",()=>{if(activeMusicButton)activeMusicButton.classList.remove("is-playing");activeMusicButton=null});
+function renderToday(){const key=isoToday(),note=allMessages[key];$("todayDate").textContent=prettyToday();$("todayContent").replaceChildren();if(!note){$("todayContent").innerHTML='<h2 class="placeholder-title">One small moment</h2><p class="placeholder-copy">A little moment my moon 🌙, your note is awaiting.</p>';$("todayMusic").hidden=true;return}const h=document.createElement("h2"),p=document.createElement("p");h.textContent=note.title||"A little note for today";p.className="today-message";p.textContent=note.message||"";$("todayContent").append(h,p);setupMusicButton($("todayMusic"),note)}
+function renderArchive(){const entries=Object.entries(allMessages).sort(([a],[b])=>b.localeCompare(a));$("noteCount").textContent=`${entries.length} ${entries.length===1?"note":"notes"}`;$("archiveGrid").replaceChildren();for(const [date,note] of entries){const b=document.createElement("button");b.type="button";b.className="archive-card glass-card";b.setAttribute("aria-label",`Open note from ${note.dateLabel||date}`);const ornament=document.createElement("div");ornament.className="archive-ornament";ornament.textContent="⟶　✧　⟵";const label=document.createElement("div");label.className="archive-date";label.textContent=(note.dateLabel||date).replace(/ (\d{4})$/,"\n$1");label.style.whiteSpace="pre-line";const arrow=document.createElement("div");arrow.className="archive-arrow";arrow.textContent="⌄";b.append(ornament,label,arrow);b.addEventListener("click",()=>openNote(date,note));$("archiveGrid").append(b)}}
+function openNote(date,note){stopMusic();$("modalDate").textContent=note.dateLabel||date;$("modalTitle").textContent=note.title||"A little note";$("modalMessage").textContent=note.message||"";$("modalMusicTitle").textContent=note.musicTitle||"";setupMusicButton($("modalMusic"),note);$("noteModal").classList.add("open");$("noteModal").setAttribute("aria-hidden","false");document.body.classList.add("modal-open");$("closeModal").focus()}
+function hideNote(){stopMusic();$("noteModal").classList.remove("open");$("noteModal").setAttribute("aria-hidden","true");document.body.classList.remove("modal-open")}
+$("closeModal").addEventListener("click",hideNote);$("noteModal").addEventListener("click",e=>{if(e.target.dataset.close==="true")hideNote()});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("noteModal").classList.contains("open"))hideNote()});
+$("unlockForm").addEventListener("submit",e=>{e.preventDefault();if($("passwordInput").value===PASSWORD){$("passwordError").textContent="";gateScreen.hidden=true;messageScreen.hidden=false;window.scrollTo({top:0,behavior:"smooth"});renderToday();renderArchive()}else{$("passwordError").textContent="That isn't the key to this little universe. Try again ♡";$("passwordInput").value="";$("passwordInput").focus()}});
+async function loadMessages(){try{const r=await fetch("messages.json");if(!r.ok)throw Error("messages.json could not be loaded");const data=await r.json();allMessages=data.messages||{}}catch(err){console.error(err);$("todayContent").innerHTML='<h2 class="placeholder-title">A little pause</h2><p class="placeholder-copy">The notes could not be opened. Check messages.json and run this website through a local server or GitHub Pages.</p>'}}
 loadMessages();
+
+// Canvas particle sky: individual twinkling stars, milky-way dust and shooting stars.
+(()=>{const canvas=$("starfield"),ctx=canvas.getContext("2d");let w=0,h=0,stars=[],dust=[],shooters=[],lastShot=0;const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function resize(){const dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);stars=Array.from({length:Math.floor(w*h/1700)},()=>({x:Math.random()*w,y:Math.random()*h*.82,r:Math.random()*1.35+.25,p:Math.random()*6.28,s:.4+Math.random()*1.4,a:.35+Math.random()*.6}));dust=Array.from({length:Math.floor(w*h/1800)},()=>{const t=Math.random();return{x:w*(.22+t*.43+(Math.random()-.5)*.18),y:h*(.02+t*.56),r:Math.random()*1.5+.2,a:Math.random()*.2}})}
+function shoot(){shooters.push({x:Math.random()*w*.8+w*.1,y:Math.random()*h*.38,dx:-(90+Math.random()*140),dy:55+Math.random()*75,life:0,max:38+Math.random()*22})}
+function draw(t){ctx.clearRect(0,0,w,h);for(const p of dust){ctx.beginPath();ctx.fillStyle=`rgba(255,151,239,${p.a})`;ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill()}for(const s of stars){const tw=reduced?1:.55+.45*Math.sin(t*.001*s.s+s.p),a=s.a*tw;ctx.beginPath();ctx.fillStyle=`rgba(255,231,255,${a})`;ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill();if(s.r>1.25&&a>.75){ctx.strokeStyle=`rgba(255,190,255,${a*.35})`;ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(s.x-s.r*3,s.y);ctx.lineTo(s.x+s.r*3,s.y);ctx.moveTo(s.x,s.y-s.r*3);ctx.lineTo(s.x,s.y+s.r*3);ctx.stroke()}}if(!reduced&&t-lastShot>5200+Math.random()*4000){shoot();lastShot=t}shooters=shooters.filter(s=>s.life<s.max);for(const s of shooters){s.life++;const p=s.life/s.max,x=s.x+s.dx*p,y=s.y+s.dy*p,g=ctx.createLinearGradient(x-s.dx*.28,y-s.dy*.28,x,y);g.addColorStop(0,"rgba(255,190,255,0)");g.addColorStop(1,`rgba(255,238,255,${1-p})`);ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-s.dx*.28,y-s.dy*.28);ctx.lineTo(x,y);ctx.stroke();ctx.beginPath();ctx.fillStyle=`rgba(255,246,255,${1-p})`;ctx.arc(x,y,2,0,6.283);ctx.fill()}requestAnimationFrame(draw)}
+addEventListener("resize",resize,{passive:true});resize();requestAnimationFrame(draw)})();
