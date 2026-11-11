@@ -28,3 +28,10 @@ html,body{margin:0;min-height:100%;color:var(--ink);font-family:"Cormorant Garam
 @keyframes screenIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes glowPulse{from{opacity:.55;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}@keyframes nebulaDrift{from{transform:translate3d(-2%,0,0) rotate(25deg)}to{transform:translate3d(3%,3%,0) rotate(34deg)}}@keyframes cloudFloat{from{transform:translateX(-2%) translateY(0)}to{transform:translateX(3%) translateY(-9px)}}@keyframes waterShimmer{from{background-position:0 0}to{background-position:0 90px}}@keyframes musicPulse{50%{box-shadow:0 0 29px rgba(255,111,223,.95),0 0 0 6px rgba(255,159,231,.12)}}
 @media(max-width:650px){.stage{padding:18px 15px}.gate-screen{gap:45px}.gate-card{padding:25px 22px 21px}.page-heading .brand-mark{margin-bottom:26px}.page-heading h1{font-size:39px}.heading-subtitle{font-size:16px}.today-card{padding:17px 17px 15px;min-height:210px;border-radius:24px}.today-content h2{font-size:28px}.today-content .today-message{font-size:17px}.archive-heading h2{font-size:25px}.archive-grid{gap:7px}.archive-card{min-height:91px;padding:12px 5px 8px;border-radius:17px}.archive-date{font-size:15px}.archive-ornament{font-size:16px}.page-footer{margin-top:19px;font-size:13px;gap:9px}.page-footer span{width:35px}.moon{width:60px;height:60px}.moon-one{right:8%;top:7%}.moon-two{left:7%;top:15%}.cloud-bank{width:100%;height:30%}}
 @media(max-width:380px){.archive-date{font-size:13px}.count-pill{font-size:12px}.page-heading h1{font-size:34px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Cinematic live WebGL background replaces the earlier flat CSS scene. */
+.universe{background:#10091f!important;isolation:isolate}
+.universe> :not(#scene){display:none!important}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+.stage{z-index:2}
+body.webgl-fallback .universe{background:radial-gradient(ellipse at 50% 20%,#67306f,#1b103d 62%,#09091e)!important}
