@@ -1,46 +1,42 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160d35"><meta name="description" content="A little universe under the stars.">
-<title>A little universe ✦</title>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100b25">
+<title>A Little Universe ✦</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head><body>
-<div class="universe" aria-hidden="true"><canvas id="scene" aria-hidden="true"></canvas>
-<div class="sky-glow"></div><div class="nebula nebula-one"></div><div class="nebula nebula-two"></div>
-<div class="moon moon-one"></div><div class="moon moon-two"></div>
-<div class="cloud-bank cloud-left"></div><div class="cloud-bank cloud-right"></div>
-<div class="distant-peaks"></div><div class="mountains"></div><div class="lake"></div><div class="lake-glimmer"></div>
-<div class="foreground-flowers flowers-left"></div><div class="foreground-flowers flowers-right"></div><canvas id="starfield"></canvas>
-</div>
-<main class="stage">
-<section id="gateScreen" class="screen gate-screen" aria-label="Password entry">
-<div class="brand-mark"><span class="brand-star">✦</span> a little universe</div>
-<div class="gate-card glass-card"><div class="ornament"><span></span><b>♡</b><span></span></div>
-<h1>A little universe <span>✧</span></h1><p class="gate-subtitle">Some things are meant for<br>the right person ♡</p>
-<form id="unlockForm" autocomplete="off"><label class="password-wrap"><span class="lock-icon">♙</span>
-<input id="passwordInput" type="password" placeholder="Enter the password ♡" aria-label="Password" required></label>
-<p id="passwordError" class="error-message" aria-live="polite"></p><button class="glow-button unlock-button" type="submit">Unlock ♡</button></form>
-<p class="gate-foot">Written in the stars ♡</p></div></section>
-
-<section id="messageScreen" class="screen message-screen" aria-label="Your little universe" hidden>
-<header class="page-heading"><div class="brand-mark"><span class="brand-star">✦</span> a little universe</div>
-<p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p><h1>For this day,<br>and the little things.</h1>
-<p class="heading-subtitle">No rush. Let the stars settle, then open today's words.</p></header>
-<section class="today-card glass-card"><div class="card-topline"><div class="date-line"><span class="sparkle">✧</span><span id="todayDate">Today</span></div>
-<button id="todayMusic" class="music-button" type="button" aria-label="Play today's music" title="Play music" hidden>
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13M9 18c0 1.1-1.6 2-3.5 2S2 19.1 2 18s1.6-2 3.5-2S9 16.9 9 18Zm12-2c0 1.1-1.6 2-3.5 2S14 17.1 14 16s1.6-2 3.5-2 3.5.9 3.5 2Z"/></svg></button></div>
-<div id="todayContent" class="today-content"></div><p class="card-caption">A little note, just for today.</p></section>
-<section class="archive-section"><div class="archive-heading"><div><p class="eyebrow">THE DAYS BEFORE</p><h2>A trail of little stars</h2></div><span id="noteCount" class="count-pill">0 notes</span></div>
-<div id="archiveGrid" class="archive-grid"></div></section>
-<footer class="page-footer"><span></span><p>made of stardust &amp; kind thoughts ♡　☾</p><span></span></footer></section>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Entrance world: intentionally distinct from the main universe -->
+<div class="entrance-scene" aria-hidden="true"><div class="entrance-stars" id="entranceStars"></div><div class="entrance-galaxy"></div><div class="entrance-moon"></div><div class="entrance-cloud cloud-a"></div><div class="entrance-cloud cloud-b"></div><div class="entrance-water"></div><div class="entrance-flora"></div></div>
+<section id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="ornament">⟶ ───── ♡ ───── ⟵</div><p class="eyebrow">A universe made of little moments</p>
+    <h1>A little universe <span>✧</span></h1><p class="login-copy">Some things are meant for<br>the right person ♡</p>
+    <form id="loginForm"><label class="password-wrap"><span>♙</span><input id="passwordInput" type="password" placeholder="Enter the password ♡" autocomplete="off" required></label><button class="glow-button" type="submit">Unlock ♡</button><p id="loginError" class="error"></p></form>
+    <p class="login-foot">Written in the stars ♡</p>
+  </div>
+</section>
+<main id="universeScreen" class="universe hidden">
+  <div class="landscape" aria-hidden="true">
+    <svg class="filter-defs" aria-hidden="true" width="0" height="0"><defs><filter id="cloudTexture" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="3" seed="11" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="34" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="7"/></filter></defs></svg>
+    <div class="deep-sky"></div><div class="nebula nebula-left"></div><div class="nebula nebula-right"></div><div class="nebula nebula-top"></div>
+    <div class="galaxy-dust"></div><div class="moon-halo"></div><div class="moon-crescent"></div>
+    <div id="universeStars" class="starfield"></div><div class="shooting-layer" id="shootingLayer"></div>
+    <div class="cloud-bank cloud-bank-left"></div><div class="cloud-bank cloud-bank-right"></div><div class="cloud-bank cloud-bank-horizon"></div>
+    <svg class="distant-ridges" viewBox="0 0 1600 430" preserveAspectRatio="none"><defs><linearGradient id="ridge" x2="0" y2="1"><stop stop-color="#9b568f"/><stop offset="1" stop-color="#251a3c"/></linearGradient><linearGradient id="cliff" x2="0" y2="1"><stop stop-color="#30203f"/><stop offset="1" stop-color="#100d25"/></linearGradient></defs><path d="M0 250 Q120 180 230 230 T460 210 T700 245 T940 190 T1190 240 T1400 190 L1600 230 V430 H0Z" fill="url(#ridge)" opacity=".76"/><path d="M0 290 Q180 240 320 280 T600 265 T900 285 T1200 250 T1600 275 V430 H0Z" fill="#30203f"/><path d="M1320 320 L1365 215 1392 178 1412 238 1442 195 1465 250 1495 226 1530 325Z" fill="url(#cliff)"/><path d="M1365 215 L1392 178 1412 238 M1442 195 L1465 250" stroke="#d98ab8" stroke-opacity=".32" stroke-width="3" fill="none"/></svg>
+    <div class="horizon-glow"></div><div class="lake"><div class="lake-light"></div><div class="water-ripples"></div><div class="water-glints"></div></div>
+    <div class="flower-bed flower-left"><i>✿</i><i>❀</i><i>✾</i><i>✿</i><i>❁</i></div><div class="flower-bed flower-right"><i>❀</i><i>✿</i><i>❁</i></div>
+  </div>
+  <div class="page-content">
+    <div class="site-mark"><span>✦</span> a little universe</div>
+    <header class="hero"><p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p><h1>For this day,<br><em>and the little things.</em></h1><p>No rush. Let the stars settle, then open today’s words.</p></header>
+    <section class="today-card glass-card"><div class="today-top"><span class="tiny-star">✧</span><span id="todayDate"></span><button id="todayMusic" class="music-button" type="button" aria-label="Play today's music">♫</button></div><h2 id="todayTitle">One small moment</h2><p id="todayMessage" class="today-message hidden"></p><button id="revealButton" class="glow-button reveal-button" type="button">Reveal today’s message ♡</button><p class="card-footnote">A little note, just for today.</p></section>
+    <section class="archive-section"><div class="archive-heading"><div><p class="eyebrow">THE DAYS BEFORE</p><h2>A trail of little stars</h2></div><span id="noteCount" class="note-count">0 notes</span></div><div id="archiveGrid" class="magic-grid"></div></section>
+    <footer class="page-footer"><span>⟵ ─────</span><p>made of stardust &amp; kind thoughts ♡ ☾</p><span>───── ⟶</span></footer>
+  </div>
 </main>
-<div id="noteModal" class="modal" aria-hidden="true"><div class="modal-backdrop" data-close="true"></div>
-<article class="modal-card glass-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-<button class="close-button" id="closeModal" aria-label="Close note">×</button>
-<div class="modal-date"><span>✧</span><span id="modalDate"></span></div>
-<div class="modal-music-row"><p class="eyebrow">A LITTLE MEMORY</p><button id="modalMusic" class="music-button" type="button" aria-label="Play note music" hidden>
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13M9 18c0 1.1-1.6 2-3.5 2S2 19.1 2 18s1.6-2 3.5-2S9 16.9 9 18Zm12-2c0 1.1-1.6 2-3.5 2S14 17.1 14 16s1.6-2 3.5-2 3.5.9 3.5 2Z"/></svg></button></div>
-<h2 id="modalTitle"></h2><div id="modalMessage" class="note-message"></div><p id="modalMusicTitle" class="music-caption"></p>
-<div class="modal-bottom">✦　a little piece of time　✦</div></article></div>
-<audio id="audioPlayer" preload="none"></audio><script src="background.js"></script><script src="script.js"></script></body></html>
+<div id="noteModal" class="note-modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button id="modalBackdrop" class="modal-backdrop" aria-label="Close note"></button><article class="spell-card"><button id="closeModal" class="close-modal" aria-label="Close">×</button><div class="card-sigil">✧</div><p id="modalDate" class="modal-date"></p><h2 id="modalTitle"></h2><p id="modalMessage" class="modal-message"></p><button id="modalMusic" class="music-button modal-music" type="button" aria-label="Play note music">♫</button><div class="card-sigil bottom-sigil">✦ ♡ ✦</div></article></div>
+<audio id="audioPlayer" preload="none"></audio><script src="app.js"></script>
+</body></html>
