@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#170d2c"><title>a little universe ✧</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="scene" aria-hidden="true">
+ <canvas id="world"></canvas><div class="scene-vignette"></div>
+</div>
+<main>
+<section id="loginScreen" class="screen login-screen active">
+ <div class="login-card glass">
+  <div class="ornament">⟶ <span>♡</span> ⟵</div>
+  <h1>A little universe <span>✧</span></h1>
+  <p class="login-subtitle">Some things are meant for<br>the right person ♡</p>
+  <form id="passwordForm">
+   <label class="password-wrap"><span>♙</span><input id="passwordInput" type="password" placeholder="Enter the password ♡" autocomplete="off" aria-label="Password"></label>
+   <p id="passwordError" class="error" aria-live="polite"></p>
+   <button class="glow-button unlock-button" type="submit">Unlock ♡</button>
+  </form>
+  <p class="written">Written in the stars ♡</p>
+ </div>
+</section>
+
+<section id="universeScreen" class="screen universe-screen" aria-hidden="true">
+ <header class="brand"><span>✦</span> a little universe</header>
+ <div class="intro">
+  <p class="eyebrow">A NOTE UNDER THE NIGHT SKY</p>
+  <h1>For this day,<br>and the little things.</h1>
+  <p class="intro-line">No rush. Let the stars settle, then open today’s words.</p>
+ </div>
+ <section class="today-card glass">
+  <div class="card-topline"><div class="date"><span>✧</span><span id="todayDate">Today</span></div><button class="music-button" id="todayMusic" aria-label="Play today's music" title="Play music">♫</button></div>
+  <div class="today-content" id="todayContent">
+   <h2 id="todayTitle">One small moment</h2><p id="todayPreview">Your note is waiting here.</p>
+   <button class="glow-button reveal-button" id="revealButton">Reveal today’s message ♡</button>
+   <p class="card-footnote" id="todayFootnote">A little note, just for today.</p>
+  </div>
+  <div id="todayMessage" class="message-body hidden" aria-live="polite"></div>
+ </section>
+ <section class="archive-section">
+  <div class="archive-heading"><div><p class="eyebrow">THE DAYS BEFORE</p><h2>A trail of little stars</h2></div><span class="note-count" id="noteCount">0 notes</span></div>
+  <div id="archiveGrid" class="archive-grid"></div>
+ </section>
+ <footer>⟶──────── made of stardust &amp; kind thoughts ♡ ☾ ────────⟵</footer>
+</section>
+</main>
+<div id="noteModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+ <div class="modal-backdrop" data-close="true"></div>
+ <article class="modal-card glass">
+  <button class="close-modal" id="closeModal" aria-label="Close note">×</button>
+  <div class="modal-date" id="modalDate"></div>
+  <div class="modal-title-row"><h2 id="modalTitle"></h2><button class="music-button" id="modalMusic" aria-label="Play note music">♫</button></div>
+  <div id="modalMessage" class="message-body"></div><p class="modal-signoff">a little note from under the stars ♡</p>
+ </article>
+</div>
+<audio id="audioPlayer" preload="none"></audio><script src="script.js"></script>
+</body></html>
