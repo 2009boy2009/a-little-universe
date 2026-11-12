@@ -2,7 +2,7 @@
 html,body{margin:0;min-height:100%;color:var(--cream);font-family:"Cormorant Garamond",Georgia,serif;background:#130b27}
 body{min-height:100vh;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}
 #scene{position:fixed;inset:0;z-index:0;overflow:hidden;background:#160d2c}
-#world{display:block;width:100%;height:100%;position:absolute;inset:0}
+#scene .scene-art{display:block;width:100%;height:100%;position:absolute;inset:0;object-fit:cover;object-position:center}
 .scene-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 30%,rgba(8,4,20,.2) 75%,rgba(7,3,17,.48) 100%),linear-gradient(180deg,rgba(10,5,26,.16),transparent 40%,rgba(12,6,24,.2))}
 main{position:relative;z-index:2;min-height:100vh}
 .screen{display:none;min-height:100vh}.screen.active{display:flex}
